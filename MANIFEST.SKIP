@@ -1,0 +1,7 @@
+^\.
+^MANIFEST\.
+~$
+^#.*#$
+^\.#
+test.pl
+README.md
