@@ -157,7 +157,8 @@ our @EXPORT = qw(parse_selector);
         <combinator> <simple_selector_sequence>
     
     <token: combinator>
-        <PLUS> <.S>* | <GREATER> <.S>* | <TILDE> <.S>* | <.S>+
+        <i=(?{$INDEX})> 
+        (?: <PLUS> <.S>* | <GREATER> <.S>* | <TILDE> <.S>* | <.S>+ )
     
     <token: simple_selector_sequence>
         <initial_selector>
@@ -185,9 +186,10 @@ our @EXPORT = qw(parse_selector);
         <namespace_prefix>? \*
     
     <token: class>
-        \. <IDENT>
+        <i=(?{$INDEX})> \. <IDENT>
     
     <token: attrib>
+        <i=(?{$INDEX})> 
         \[
         <.S>* <attrib_name> <.S>*
         (?: <comparator> <.S>* <attrib_value> <.S>*)?
@@ -208,6 +210,7 @@ our @EXPORT = qw(parse_selector);
         <DASHMATCH>
 
     <token: pseudo>
+        <i=(?{$INDEX})> 
         \:{1,2} (?: <IDENT> | <functional_pseudo> )
     
     <token: functional_pseudo>
@@ -217,12 +220,15 @@ our @EXPORT = qw(parse_selector);
         (?: <[expression_element]> <.S>* )+
 
     <token: expression_element>
+        <i=(?{$INDEX})> 
+        (?:
         <PLUS>      |
         \-          |
         <DIMENSION> |
         <NUMBER>    |
         <STRING>    |
         <IDENT>
+        )
     
     <token: negation>
         <.NOT> <.S>* <negation_arg> <.S>* \)
